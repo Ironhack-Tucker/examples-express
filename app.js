@@ -3,6 +3,9 @@ const express = require('express');
 const morgan     = require('morgan');
 const expressLayouts = require('express-ejs-layouts');
 
+const Chuck  = require('chucknorris-io'),
+      client = new Chuck();
+
 // We create our own server named app
 // Express server handling requests and responses
 const app = express();
@@ -32,6 +35,13 @@ let controller = (req, res) =>{
 }
 
 app.post('/submit-form2', controller);
+
+app.get('/randomjoke', (req, res) =>{
+  client.getRandomJoke().then(function (data) {
+    console.log(data);
+    res.render('joke', data);
+  });
+});
 
 //Server Started
 app.listen(3000, () => {
